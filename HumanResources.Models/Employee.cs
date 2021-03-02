@@ -6,19 +6,31 @@ namespace HumanResources.Models
 {
     public class Employee
     {
-        int i = 1;
+        const string EmployeePrefix = "Сотрудник";
         public Employee(Department department)
         {
             Department = department;
         }
 
-        public long Id { get;  set; }
+        public long Id { get; set; }
 
         private string _name;
         public string Name
         {
             get { return _name; }
             set { _name = value; }
+        }
+
+        public Gender Gender { get; set; }
+
+        public DateTime BirthDate { get; set; }
+
+        public double Age
+        {
+            get
+            {
+                return Math.Round((DateTime.Now - BirthDate).TotalDays / 365, 2);
+            }
         }
 
         /// <summary>
@@ -28,6 +40,8 @@ namespace HumanResources.Models
 
         public Position Position { get; set; }
 
+        public Employee Supervisor { get; set; }
+
         /// <summary>
         /// Возвращает описание сотрудника
         /// </summary>
@@ -35,21 +49,10 @@ namespace HumanResources.Models
         /// <returns>Описание сотрудника</returns>
         public string GetInfo(string title = "")
         {
-            i = 1;
-            if (title == "")
-            {
-                i = 3;
-            }
-
-            i = 2;
-            return $"{title}{(string.IsNullOrEmpty(title) ? "" : ".")} {Name} ({Department.Title}) ({Position.Name})";
+            return $"{EmployeePrefix} {(string.IsNullOrEmpty(title) ? "" : title + ".")} {Name}, {BirthDate}(Текущий возраст-{Age}) ({Department.Title}, {Position.Title})";
         }
 
-        public string GetString()
-        {
-            i = 2;
-            return "s";
-        }
+
 
     }
 }

@@ -6,16 +6,10 @@ namespace HumanResources.Models
 {
     public class Position
     {
-        public int Id
-        {
-            get;
-            set;
-        }
+        public int Id { get; set; }
 
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Title { get; set; }
+
+        public decimal FixedSalary { get; set; }
     }
 }

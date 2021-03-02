@@ -1,7 +1,8 @@
 ﻿using HumanResources.Models;
 using System;
+using System.Linq;
 
-namespace ConsoleApp4
+namespace HumanResources
 {
     class Program
     {
@@ -10,35 +11,38 @@ namespace ConsoleApp4
             Department department = new Department
             {
                 Id = 1,
-                Title = "Accounting"
+                Title = "Accounting"                
             };
 
             Employee employee1 = new Employee(department)
             {
                 Id = 1,
-                Name = "Ivanov"
+                Name = "Ivanov",
+                BirthDate = new DateTime(1999, 03, 22),
+                Gender = Gender.Male
             };
 
             Employee employee2 = new Employee(department)
             {
                 Id = 2,
-                Name = "Petrov"
+                Name = "Petrova",
+                BirthDate = new DateTime(1991, 6, 2),
+                Gender = Gender.Female
             };
 
             Employee employee3 = new Employee(department)
             {
                 Id = 3,
-                Name = "Stoma"
+                Name = "Antonov",
+                BirthDate = new DateTime(1995, 11, 12),
             };
 
             Position director = new Position();
-            director.Name = "Директор";
+            director.Title = "Директор";
 
             employee1.Position = director;
-            employee2.Position = new Position { Name = "Разработчик" };
-            employee3.Position = new Position { Name = "Ученик" };
-
-
+            employee2.Position = new Position { Title = "Разработчик" };
+            employee3.Position = new Position { Title = "Ученик" };
 
 
             //employee1.Department = department;
@@ -47,46 +51,20 @@ namespace ConsoleApp4
             string info2 = employee2.GetInfo();
             //employee1.Id = 1;
 
+
+
             Console.WriteLine(string.Join(", ",
                 new string[] { employee1.GetInfo(), employee3.GetInfo("Dr") }));
 
 
+            Employee[] employees = new Employee[] { employee1, employee2, employee3 };
 
-            //Console.WriteLine(employee1.Equals(employee2));
-
-
-            //Console.WriteLine("Enter number");
-            //int n = int.Parse(Console.ReadLine());
-
-            //for (int j = 2; j <= n; j++)
-            //{
-            //    bool isPrime = IsPrime(j);
-            //    if (isPrime)
-            //    {
-            //        Console.WriteLine($"{j} is Prime"); ;
-            //    }
-            //}
+            Console.WriteLine(string.Join("\n", employees.Select(e => e.GetInfo())));
 
 
-        }
+            department.Employees = employees;
 
-        private static bool IsPrime(int n)
-        {
-            int i = 2;
-            // bool isPrime = true;
-            while (i <= Math.Sqrt(n))
-
-            {
-                if (n % i == 0)
-
-                {
-                    return false;
-                }
-                i++;
-            }
-
-            return true;
-
-        }
+            Console.WriteLine($"Средний возраст по отделу {department} равен {department.GetAverageAge():0.0}");
+        }       
     }
 }
